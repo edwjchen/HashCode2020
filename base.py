@@ -16,7 +16,19 @@ def genRes(fileBase):
     library_data = []
     for i in range(2,num_libraries*2+1,2):
         library_data.append([lines[i], lines[i+1]])
-    print(len(library_data),num_libraries)
+    print(library_data)
 
-for f in fileBases:
-    genRes(f)
+    heuristics = []
+    for index,libraryDat in enumerate(library_data):
+        heuristic = (libraryDat[0][1]+libraryDat[0][0]/libraryDat[0][2])
+        waste = num_days - heuristic
+        heuristic/=libraryDat[0][1]
+        libraryDat.append([heuristic,waste])
+        heuristics.append([index, heuristic, waste])
+        
+    heuristics.sort(key=lambda x: x[1])
+    print(heuristics)
+    print(library_data)
+
+
+genRes(fileBases[0])

@@ -30,4 +30,15 @@ def genRes(fileBase):
     print(heuristics)
     print(library_data)
 
+def genFile(libraryOrder,bookOrderPerLibrary,fileBase):
+    # libraryOrder = list of library order
+    # bookOrderPerLibrary = sorted list of book IDs per library
+    # fileBase = outpute file base
+    fileOut = open(fileBase+".out","w")
+    fileOut.write(len(libraryOrder)+"\n")
+    for id in libraryOrder:
+        fileOut.write(i+" "+len(bookOrderPerLibrary[id]+"\n")
+        fileOut.write(" ".join(bookOrderPerLibrary[id])+"\n")
+    fileOut.close()
+
 genRes(fileBases[0])

@@ -1,4 +1,4 @@
-fileBases = ["a_example"]#,"b_read_on","c_incunabula","d_tough_choices","e_so_many_books","f_libraries_of_the_world"]
+fileBases = ["a_example","b_read_on","c_incunabula","d_tough_choices","e_so_many_books","f_libraries_of_the_world"]
 
 def genFile(libraryOrder,bookOrderPerLibrary,fileBase):
     # libraryOrder = list of library order
@@ -36,17 +36,25 @@ def genRes(fileBase):
         sorted_books = [(i,book_scores[i]) for i in books]
         sorted_books.sort(key = lambda x: x[1]) 
         library_data.append([lines[i], sorted_books])
+
     
-    books_to_library = {}
-    print(library_data)
-    for i in library_data:
-        for j in i[1]:
-            print(j)
     
+    #find unique number of books per library 
+    # for i, data in enumerate(library_data):
+    #     print(i)
+    #     print(data)
+
+    #find number of libraries
+    #output books
+
+    #assume list of libraries 
+    #given first library
+    #given second library
+
     heuristics = []
 
     for index,libraryDat in enumerate(library_data):
-        totScore = sum([i[1] for i in libraryDat[1] if i[0] not in done_scanning])
+        totScore = sum([i[1] for i in libraryDat[1]])
         heuristic = (libraryDat[0][1]+totScore/libraryDat[0][2])
         daysToWork = num_days - libraryDat[0][1]
         heuristic/=libraryDat[0][1]
@@ -56,9 +64,7 @@ def genRes(fileBase):
     heuristics.sort(key = lambda x: x[1]) 
     lib_scan = {}
     final_libs = []
-     
     for lib, score, days_left, tp in heuristics:
-        heuristics.pop(0)
         final_libs.append(lib)
         for days in range(int(days_left)):
             if not library_data[lib][1]:
@@ -70,18 +76,6 @@ def genRes(fileBase):
                 done_scanning.add(book[0])
                 lib_scan[lib].append(book[0])
 
-        heuristics = []
-        for index,libraryDat in enumerate(library_data):
-            if index not in lib_scan:
-                totScore = sum([i[1] for i in libraryDat[1]])
-                heuristic = (libraryDat[0][1]+totScore/libraryDat[0][2])
-                daysToWork = num_days - libraryDat[0][1]
-                heuristic/=libraryDat[0][1]
-                #libraryDat.append([heuristic,daysToWork])
-                heuristics.append([index, heuristic, daysToWork, libraryDat[0][2]])
-        heuristics.sort(key = lambda x: x[1]) 
-
-    print("results/"+fileBase)
     genFile(final_libs, lib_scan ,"results/"+fileBase)
 
     # find number of days it can output books

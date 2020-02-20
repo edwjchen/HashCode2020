@@ -42,4 +42,16 @@ def genFile(libraryOrder,bookOrderPerLibrary,fileBase):
         fileOut.write(" ".join(bookOrderPerLibrary[id])+"\n")
     fileOut.close()
 
+
+def caculateHeuristics(libraryDat,bookScores,booksScanned,num_days,index):
+    daysToWork = num_days - libraryDat[0][1]
+    totScore = 0
+    for i in libraryDat[1]:
+        if i not in booksScanned:
+            totScore += bookScores[i]
+    heuristic = (libraryDat[0][1]+totScore/libraryDat[0][2])/libraryDat[0][1]
+    return [index, heuristic, daysToWork]
+
+
+
 genRes(fileBases[0])

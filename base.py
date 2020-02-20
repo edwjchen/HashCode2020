@@ -8,8 +8,8 @@ def genRes(fileBase):
     num_books = lines[0][0]
     num_libraries = lines[0][1]
     num_days = lines[0][2]
-    # line 2 is book scores
-    bookScores = lines[1]
+    # line 2 is book scores (dict mapping id to value)
+    bookScores = {ind : val for ind,val in enumerate(lines[1])}
     # 2 lines per library:
     #   1. number of books + signup cost + books per day
     #   2. IDs of the books
@@ -25,10 +25,9 @@ def genRes(fileBase):
         heuristic/=libraryDat[0][1]
         libraryDat.append([heuristic,waste])
         heuristics.append([index, heuristic, waste])
-        
+
     heuristics.sort(key=lambda x: x[1])
     print(heuristics)
     print(library_data)
-
 
 genRes(fileBases[0])

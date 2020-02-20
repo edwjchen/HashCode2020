@@ -50,7 +50,7 @@ def genRes(fileBase):
         heuristic = (libraryDat[0][1]+totScore/libraryDat[0][2])
         daysToWork = num_days - libraryDat[0][1]
         heuristic/=libraryDat[0][1]
-        #libraryDat.append([heuristic,daysToWork])
+        libraryDat.append([totScore])
         heuristics.append([index, heuristic, daysToWork, libraryDat[0][2]])
 
     heuristics.sort(key = lambda x: x[1]) 
@@ -58,6 +58,7 @@ def genRes(fileBase):
     final_libs = []
      
     for lib, score, days_left, tp in heuristics:
+        last_scanned = set()
         heuristics.pop(0)
         final_libs.append(lib)
         for days in range(int(days_left)):
@@ -68,16 +69,21 @@ def genRes(fileBase):
                 lib_scan[lib] = []
             if book not in done_scanning:
                 done_scanning.add(book[0])
+                last_scanned.add(book[0])
                 lib_scan[lib].append(book[0])
 
         heuristics = []
         for index,libraryDat in enumerate(library_data):
             if index not in lib_scan:
-                totScore = sum([i[1] for i in libraryDat[1]])
-                heuristic = (libraryDat[0][1]+totScore/libraryDat[0][2])
+                totScore = libraryDat[3][0]
+                for i in libraryDat[1]:
+                    if i[0] in last_scanned:
+                        totScore -= i[1]
+                totScore = libraryDat[3][0]
+                heuristic = (libraryDat[0][1]+totScore)
                 daysToWork = num_days - libraryDat[0][1]
                 heuristic/=libraryDat[0][1]
-                #libraryDat.append([heuristic,daysToWork])
+                libraryDat.append([heuristic,daysToWork])
                 heuristics.append([index, heuristic, daysToWork, libraryDat[0][2]])
         heuristics.sort(key = lambda x: x[1]) 
 

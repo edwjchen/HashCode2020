@@ -10,6 +10,8 @@ def genRes(fileBase):
     num_days = lines[0][2]
     # line 2 is book scores (dict mapping id to value)
     bookScores = {ind : val for ind,val in enumerate(lines[1])}
+
+    booksToLibrary = {}
     # 2 lines per library:
     #   1. number of books + signup cost + books per day
     #   2. IDs of the books
@@ -20,13 +22,18 @@ def genRes(fileBase):
 
     heuristics = []
     for index,libraryDat in enumerate(library_data):
+        for i in libraryDat[1]:
+            if i in booksToLibrary:
+                booksToLibrary[i].append(index)
+            else:
+                booksToLibrary[i] = [index]
         totScore = sum([bookScores[i] for i in libraryDat[1]])
         heuristic = (libraryDat[0][1]+totScore/libraryDat[0][2])
         daysToWork = num_days - libraryDat[0][1]
         heuristic/=libraryDat[0][1]
         #libraryDat.append([heuristic,daysToWork])
         heuristics.append([index, heuristic, daysToWork])
-
+    
     heuristics.sort(key=lambda x: x[1])
     print(heuristics)
     print(library_data)

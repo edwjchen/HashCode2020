@@ -20,7 +20,8 @@ def genRes(fileBase):
 
     heuristics = []
     for index,libraryDat in enumerate(library_data):
-        heuristic = (libraryDat[0][1]+libraryDat[0][0]/libraryDat[0][2])
+        totScore = sum([bookScores[i] for i in libraryDat[1]])
+        heuristic = (libraryDat[0][1]+totScore/libraryDat[0][2])
         daysToWork = num_days - libraryDat[0][1]
         heuristic/=libraryDat[0][1]
         #libraryDat.append([heuristic,daysToWork])
@@ -35,9 +36,9 @@ def genFile(libraryOrder,bookOrderPerLibrary,fileBase):
     # bookOrderPerLibrary = sorted list of book IDs per library
     # fileBase = outpute file base
     fileOut = open(fileBase+".out","w")
-    fileOut.write(len(libraryOrder)+"\n")
+    fileOut.write(str(len(libraryOrder))+"\n")
     for id in libraryOrder:
-        fileOut.write(i+" "+len(bookOrderPerLibrary[id]+"\n")
+        fileOut.write(str(id)+" "+str(len(bookOrderPerLibrary[id]))+"\n")
         fileOut.write(" ".join(bookOrderPerLibrary[id])+"\n")
     fileOut.close()
 

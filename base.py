@@ -21,10 +21,10 @@ def genRes(fileBase):
     heuristics = []
     for index,libraryDat in enumerate(library_data):
         heuristic = (libraryDat[0][1]+libraryDat[0][0]/libraryDat[0][2])
-        waste = num_days - heuristic
+        daysToWork = num_days - libraryDat[0][1]
         heuristic/=libraryDat[0][1]
-        libraryDat.append([heuristic,waste])
-        heuristics.append([index, heuristic, waste])
+        #libraryDat.append([heuristic,daysToWork])
+        heuristics.append([index, heuristic, daysToWork])
 
     heuristics.sort(key=lambda x: x[1])
     print(heuristics)
